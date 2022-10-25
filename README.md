@@ -243,7 +243,7 @@ Las colaboraciones principales fueron realizadas por:
 * **[Agustin Bassi](https://github.com/agustinBassi)**: Ideación, puesta en marcha y mantenimiento del proyecto.
 * **[Ernesto Giggliotti](https://github.com/ernesto-g)**: Creación inicial del frontend, elección de Material Design.
 * **[Brian Ducca](https://github.com/brianducca)**: Ayuda para conectar el backend a la base de datos, puesta a punto de imagen de Docker.
-* **[Fabián Banderas](https://github.com/fabianbanderas)**: Modificación daw.
+* **[Fabián Banderas](https://github.com/fabianbanderasb)**: Modificación daw.
 
 También podés mirar todas las personas que han participado en la [lista completa de contribuyentes](https://github.com/###/contributors).
 
