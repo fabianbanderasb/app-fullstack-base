@@ -15,6 +15,12 @@ class Main{
 window.onload = inicio//para que ejecute luego de cargar la página
 
 function inicio(){
+
+    let user:Usuario = new Usuario("Juan", "jperez", "jperez@gmail.com");
+    
+    alert(user.toString());
+    
+
     let per1 = new Persona("Fabian");
     per1.edad = 29;
     let main: Main = new Main(per1);
