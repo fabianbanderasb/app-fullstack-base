@@ -19,7 +19,6 @@ function inicio(){
     let user:Usuario = new Usuario("Juan", "jperez", "jperez@gmail.com");
     
     alert(user.toString());
-    
 
     let per1 = new Persona("Fabian");
     per1.edad = 29;
@@ -29,9 +28,24 @@ function inicio(){
     
     mostrar(main);
 
+
+    modificar(user);
+    modificar(new Administrador());
+    ver(user);
+    ver(new Persona("Fabuco"));
+
     let btn = document.getElementById("btnSaludar");
     
     btn.onclick =  saludar;
+}
+
+function ver(ac:Persona){
+    ac.toString();
+}
+
+function modificar(ac:Acciones){
+    ac.modificarusuario();
+
 }
 
 function mostrar(main:Main){

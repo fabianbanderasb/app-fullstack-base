@@ -11,6 +11,7 @@ class Persona{
     }
 
     public toString():string{
-        return "Nombre: "+this.nombre+ " Edad: "+this.edad; 
+        //return "Nombre: "+this.nombre+ " Edad: "+this.edad; 
+        return ` Nombre: ${this.nombre} Edad: ${this.edad}`; 
     }
 }

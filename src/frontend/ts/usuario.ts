@@ -1,5 +1,5 @@
 
-class Usuario extends Persona{
+class Usuario extends Persona implements Acciones{
     private username: string;
     private email:string;
 
@@ -15,6 +15,14 @@ class Usuario extends Persona{
         return this.username;
     }
     public toString(): string {
-        return "Username "+this.username;
+        //return super.toString()+" Username: "+this.username;
+        return `${super.toString()} Username: ${this.username}`;
+    }
+
+    public recuperarContrasena(): string {
+        return "Puede recuperar";
+    }
+    public modificarusuario(): string {
+        return "No puede realizarlo";
     }
 }
