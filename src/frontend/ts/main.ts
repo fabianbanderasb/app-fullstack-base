@@ -12,26 +12,21 @@ class Main implements EventListenerObject{
     }
 
     handleEvent(object: Event): void {
+
+        console.log(object);
         alert(`Hola ${this.personas[0].getNombre()} estoy en el main`);
     }
 }
 
-window.onload = inicio//para que ejecute luego de cargar la página
-
-function inicio(){
-
+window.addEventListener("load",()=>{
     let user:Usuario = new Usuario("Juan", "jperez", "jperez@gmail.com");
-    
-    //alert(user.toString());
-
     let per1 = new Persona("Fabian");
     per1.edad = 29;
     let main: Main = new Main(per1);
-    
     main.addPersona(new Persona("Romyna"));
-
     mostrar(main);
     let btn = document.getElementById("btnSaludar");
+    let btn2 = document.getElementById("btnOtro");
     btn.addEventListener("click", main);
 
     //btn.onclick = function(){
@@ -48,9 +43,8 @@ function inicio(){
     //btn.addEventListener ("click",()=> { 
     //    alert("Chau");
     //} )
+});
 
-
-}
 
 function mostrar(main:Main){
     let personas = main.getPersona();
