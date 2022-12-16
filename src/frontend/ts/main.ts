@@ -1,17 +1,12 @@
 class Main{
-    private nombre: string;
-    public edad: number;
-
-    constructor(nombre:string){
-        this.nombre = nombre;
-        
-    }
-    public getNombre():string{
-        return this.nombre;
+    private per1:Persona;
+    //private per2:Persona;
+    constructor(per:Persona){
+        this.per1 = per;
     }
 
-    public toString():string{
-        return "Nombre: "+this.nombre+ " Edad: "+this.edad; 
+    public getPersona():Persona {
+        return this.per1;
     }
 }
 
@@ -21,14 +16,13 @@ window.onload = inicio//para que ejecute luego de cargar la página
 
 function inicio(){
 
-    let main:Main = new Main("Fabian");
-    main.edad = 29;
+    let per1 = new Persona("Fabian");
+    per1.edad = 29;
+    let main:Main = new Main(per1);
+    
     //let nombre = main.getNombre();
     //alert("Hola "+ nombre + " tenés "+ main.edad + " años");
     mostrar(main);
-    let main2:Main = new Main("Romyna");
-    main2.edad = 33;
-    mostrar(main2);
 
     let btn = document.getElementById("btnSaludar");
     
@@ -36,7 +30,7 @@ function inicio(){
 }
 
 function mostrar(main:Main){
-    alert(main.toString());
+    alert(main.getPersona().toString());
 }
 
 function saludar(){
