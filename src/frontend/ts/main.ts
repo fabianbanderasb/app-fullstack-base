@@ -1,5 +1,7 @@
 
 class Main implements EventListenerObject{
+    
+    private framework:Framework = new Framework();
     private personas: Array<Persona> = new Array();
     constructor(per:Persona){
         this.personas.push(per);
@@ -14,58 +16,31 @@ class Main implements EventListenerObject{
     }
 
     consultarDispositivosAlServidor(){ //capturar los dispositivos del servidor
-        //JSON javaScript Object Notation
-        let jsonEjemplo = {id:123, nombre:"FabianB"};
-        let strJson:string;
-        strJson = JSON.stringify(jsonEjemplo);//Transformar un dato tipo JSON a string
+        
+        this.framework.ejecutarRequest("GET", "http://localhost:8000/devices");
+    }
 
-        jsonEjemplo = JSON.parse(strJson);//Transformar de string a JSON
-
-        let xmlHttp = new XMLHttpRequest();
-        xmlHttp.onreadystatechange = () =>{ //se va ejecutar cuando el servidor tenga la información disponible para mostrar
-            if(xmlHttp.readyState==4){//una respuesta para procesar
-                if(xmlHttp.status == 200){//respueta de que todo va bien
-
-                    let listaDispositivos: Array<Device> = JSON.parse(xmlHttp.responseText);
-                    console.log("Llegó info del servidor", listaDispositivos); 
-                    let cajaDispositivos = document.getElementById("cajaDispositivos");
-                    cajaDispositivos.innerHTML=`<h4>Dispositivos a mostrar: ${listaDispositivos.length} </h4>`;
-                    for(let disp of listaDispositivos){
+    dibujarLista(lista:string){
+        let listaDispositivos: Array<Device> = JSON.parse(lista);
+        console.log("Llegó info del servidor", listaDispositivos); 
+        let cajaDispositivos = document.getElementById("cajaDispositivos");
+        cajaDispositivos.innerHTML=`<h4>Dispositivos a mostrar: ${listaDispositivos.length} </h4>`;
+        for(let disp of listaDispositivos){
                         
-                        //esta sería la forma correcta de escribir el código de cajaDispositivos.innerHTML += `<h5>${disp.id} - ${disp.name}</h5>`;
-                        //let h5 = document.createElement("h5");
-                        //h5.innerHTML = "${disp.id} - ${disp.name}";
-                        //cajaDispositivos.appendChild(h5);
-
-
-                        //console.log(disp.id, disp.name); // en consola
-                        //cajaDispositivos.innerHTML = cajaDispositivos.innerHTML + disp.id + disp.name
-                        cajaDispositivos.innerHTML += `<h5>${disp.id} - ${disp.name}</h5>`;//refactorizacion de codigo
-                    }   
-                }else{
-                    alert("Error en la consulta");
-                }
-            }    
+            //esta sería la forma correcta de escribir el código de cajaDispositivos.innerHTML += `<h5>${disp.id} - ${disp.name}</h5>`;
+            //let h5 = document.createElement("h5");
+            //h5.innerHTML = "${disp.id} - ${disp.name}";
+            //cajaDispositivos.appendChild(h5);
+            //console.log(disp.id, disp.name); // en consola
+            //cajaDispositivos.innerHTML = cajaDispositivos.innerHTML + disp.id + disp.name
+            cajaDispositivos.innerHTML += `<h5>${disp.id} - ${disp.name}</h5>`;//refactorizacion de codigo
         }
-        xmlHttp.open("GET", "http://localhost:8000/devices",true);
-        xmlHttp.send();   
     }
 
     cambiarEstadoDispositivosAlServidor(){ 
+
         let json = {id:1,state:0};
-        let xmlHttp = new XMLHttpRequest();
-        xmlHttp.onreadystatechange = () =>{ //se va ejecutar cuando el servidor tenga la información disponible para mostrar
-            if(xmlHttp.readyState==4){//una respuesta para procesar
-                if(xmlHttp.status == 200){//respueta de que todo va bien
-                    alert("se cambió el estado de dispositivo");
-                }else{
-                    alert("no se pudo cambiar el estado de dispositivo");
-                }
-            }    
-        }
-        xmlHttp.open("GET", "http://localhost:8000/deviceChange",true);
-        xmlHttp.setRequestHeader("Content-Type", "application/json");
-        xmlHttp.send(JSON.stringify(json));
+        this.framework.ejecutarRequest("POST", "http://localhost:8000/deviceChange", json);        
     }
 
 
