@@ -1,27 +1,26 @@
-class Main{
-    private per1:Persona;
-    //private per2:Persona;
-    constructor(per:Persona){
-        this.per1 = per;
-    }
 
-    public getPersona():Persona {
-        return this.per1;
+class Main{
+    private personas: Array<Persona> = new Array();
+    constructor(per:Persona){
+        this.personas.push(per);
+    }
+    public addPersona(per: Persona){
+        this.personas.push(per);
+    }
+    public getPersona(){
+        return this.personas;
     }
 }
-
-
 
 window.onload = inicio//para que ejecute luego de cargar la página
 
 function inicio(){
-
     let per1 = new Persona("Fabian");
     per1.edad = 29;
-    let main:Main = new Main(per1);
+    let main: Main = new Main(per1);
     
-    //let nombre = main.getNombre();
-    //alert("Hola "+ nombre + " tenés "+ main.edad + " años");
+    main.addPersona(new Persona("Romyna"));
+    
     mostrar(main);
 
     let btn = document.getElementById("btnSaludar");
@@ -30,7 +29,13 @@ function inicio(){
 }
 
 function mostrar(main:Main){
-    alert(main.getPersona().toString());
+    let personas = main.getPersona();
+    let datosPersonas = "";
+    for(let i in personas) {
+        datosPersonas = datosPersonas + personas[i].toString();
+    }
+
+    alert(datosPersonas);
 }
 
 function saludar(){
