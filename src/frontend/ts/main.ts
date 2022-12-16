@@ -3,6 +3,8 @@ class Main implements EventListenerObject{
     private personas: Array<Persona> = new Array();
     constructor(per:Persona){
         this.personas.push(per);
+
+        console.log(this);
     }
     public addPersona(per: Persona){
         this.personas.push(per);
@@ -12,17 +14,36 @@ class Main implements EventListenerObject{
     }
 
     public consultarDispositivosAlServidor(){ //capturar los dispositivos del servidor
+        //JSON javaScript Object Notation
+        let jsonEjemplo = {id:123, nombre:"FabianB"};
+        let strJson:string;
+        strJson = JSON.stringify(jsonEjemplo);//Transformar un dato tipo JSON a string
+
+        jsonEjemplo = JSON.parse(strJson);//Transformar de string a JSON
+
         let xmlHttp = new XMLHttpRequest();
         xmlHttp.onreadystatechange = () =>{ //se va ejecutar cuando el servidor tenga la información disponible para mostrar
-            if(xmlHttp.readyState==4){
-                console.log("Llegó info del servidor", xmlHttp.responseText);    
-            }
-            
+            if(xmlHttp.readyState==4){//una respuesta para procesar
+                if(xmlHttp.status == 200){//respueta de que todo va bien
+
+                    let listaDispositivos: Array<Device> = JSON.parse(xmlHttp.responseText);
+                    console.log("Llegó info del servidor", listaDispositivos); 
+                    let cajaDispositivos = document.getElementById("cajaDispositivos");
+                    cajaDispositivos.innerHTML=`<h4>Dispositivos a mostrar: ${listaDispositivos.length} </h4>`;
+                    for(let disp of listaDispositivos){
+                        //console.log(disp.id, disp.name); // en consola
+                        //cajaDispositivos.innerHTML = cajaDispositivos.innerHTML + disp.id + disp.name
+                        cajaDispositivos.innerHTML += `<h5>${disp.id} - ${disp.name}</h5>`;//refactorizacion de codigo
+                    }   
+                }else{
+                    alert("Error en la consulta");
+                }
+            }    
         }
         xmlHttp.open("GET", "http://localhost:8000/devices",true);
-        console.log("Abrir la conexión");
+        
         xmlHttp.send();
-        console.log("Envie la consulta");
+        
     }
 
     handleEvent(object: Event): void {
