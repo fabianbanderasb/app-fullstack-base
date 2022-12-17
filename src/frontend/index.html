@@ -5,7 +5,7 @@
       <link type="text/css" rel="stylesheet" href="static/css/materialize.min.css"  media="screen,projection"/>
       <link type="text/css" rel="stylesheet" href="static/css/styles.css"  media="screen,projection"/>
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-      <script type="text/javascript" src="js/materialize.min.js"></script>
+      <script type="text/javascript" src="static/js/materialize.min.js"></script>
       
       <script type="text/javascript" src="js/persona.js"></script>
       <script type="text/javascript" src="js/usuario.js"></script>
@@ -14,6 +14,7 @@
       <script type="text/javascript" src="js/main.js"></script>
     </head>
     <body>
+        <img id="loading" class="imgloading" src="static/images/loading.gif" hidden>
         <main>
             <!-- Navigation bar -->
             <nav style="background-color:#124580">
@@ -40,7 +41,7 @@
                 <br/>
                 <div class="row">
                     <div id="cajaDispositivos">
-
+                        
                     </div>
                     <div class="input-field col s12 m12 l12 xl12">
                         <input id="iNombre" value="texto por defecto"/>

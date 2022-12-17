@@ -1,5 +1,5 @@
 
-class Main implements EventListenerObject{
+class Main implements EventListenerObject, HandleResponse{
     
     private framework:Framework = new Framework();
     private personas: Array<Persona> = new Array();
@@ -17,30 +17,54 @@ class Main implements EventListenerObject{
 
     consultarDispositivosAlServidor(){ //capturar los dispositivos del servidor
         
-        this.framework.ejecutarRequest("GET", "http://localhost:8000/devices");
-    }
-
-    dibujarLista(lista:string){
-        let listaDispositivos: Array<Device> = JSON.parse(lista);
-        console.log("Llegó info del servidor", listaDispositivos); 
-        let cajaDispositivos = document.getElementById("cajaDispositivos");
-        cajaDispositivos.innerHTML=`<h4>Dispositivos a mostrar: ${listaDispositivos.length} </h4>`;
-        for(let disp of listaDispositivos){
-                        
-            //esta sería la forma correcta de escribir el código de cajaDispositivos.innerHTML += `<h5>${disp.id} - ${disp.name}</h5>`;
-            //let h5 = document.createElement("h5");
-            //h5.innerHTML = "${disp.id} - ${disp.name}";
-            //cajaDispositivos.appendChild(h5);
-            //console.log(disp.id, disp.name); // en consola
-            //cajaDispositivos.innerHTML = cajaDispositivos.innerHTML + disp.id + disp.name
-            cajaDispositivos.innerHTML += `<h5>${disp.id} - ${disp.name}</h5>`;//refactorizacion de codigo
-        }
+        this.framework.ejecutarRequest("GET", "http://localhost:8000/devices",this);
     }
 
     cambiarEstadoDispositivosAlServidor(){ 
 
         let json = {id:1,state:0};
-        this.framework.ejecutarRequest("POST", "http://localhost:8000/deviceChange", json);        
+        this.framework.ejecutarRequest("POST", "http://localhost:8000/deviceChange",this, json);        
+    }
+
+    cargarGrilla(listaDispositivos: Array<Device>){
+        console.log("Llegó info del servidor", listaDispositivos); 
+        let cajaDispositivos = document.getElementById("cajaDispositivos");
+        let grilla:string ="<ul class='collection'>";
+        for(let disp of listaDispositivos){
+
+            grilla += `<li class="collection-item avatar">`;
+
+            if(disp.type == 1){
+                grilla+=`<img src="static/images/lamp.png" alt="" class="circle">`;
+            }else{
+                grilla+=`<img src="static/images/louver.png" alt="" class="circle">`;
+            }
+
+            grilla+=`<span class="title">${disp.name}</span>
+            <p>${disp.description}
+            </p>
+              <a href="#!" class="secondary-content">
+                  <div class="switch">
+                      <label>
+                          Off`;
+                        if(disp.state){
+                            grilla+=`<input type="checkbox" checked>`;
+                        }else{
+                            grilla+=`<input type="checkbox">`;
+                        }
+                              
+                          grilla+= `<span class="lever"></span>
+                          On
+                      </label>
+                  </div>
+              </a>
+            </li>`;//refactorizacion de codigo
+        }
+        grilla += "</ul>";
+
+        cajaDispositivos.innerHTML = grilla;
+        this.framework.ocultarCargando();
+
     }
 
 
@@ -59,10 +83,7 @@ class Main implements EventListenerObject{
             objEvento.textContent = iNombre.value;
             alert(`Hola ${this.personas[0].getNombre()} estoy en el main`);
         }else if(objEvento.id == "btnSaludar"){
-            let textArea = document.getElementById("textarea_1");
-            //textArea.textContent = `Hola ${this.personas[1].getNombre()} otro botón`;
-            textArea.innerHTML = `Hola ${this.personas[1].getNombre()} otro botón`;
-            //alert(`Hola ${this.personas[1].getNombre()} otro botón`);
+            this.framework.mostrarCargando();
 
             this.consultarDispositivosAlServidor();//llamado a la función consultarDispositivosAlServidor
         }
