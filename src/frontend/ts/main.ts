@@ -1,3 +1,4 @@
+declare const M;
 
 class Main implements EventListenerObject, HandleResponse{
     
@@ -40,7 +41,7 @@ class Main implements EventListenerObject, HandleResponse{
                 grilla+=`<img src="static/images/louver.png" alt="" class="circle">`;
             }
 
-            grilla+=`<span class="title">${disp.name}</span>
+            grilla+=`<span class="title negrita">${disp.name}</span>
             <p>${disp.description}
             </p>
               <a href="#!" class="secondary-content">
@@ -48,9 +49,9 @@ class Main implements EventListenerObject, HandleResponse{
                       <label>
                           Off`;
                         if(disp.state){
-                            grilla+=`<input type="checkbox" checked>`;
+                            grilla+=`<input id="cb_${disp.id}" type="checkbox" checked>`;
                         }else{
-                            grilla+=`<input type="checkbox">`;
+                            grilla+=`<input id="cb_${disp.id}" type="checkbox">`;
                         }
                               
                           grilla+= `<span class="lever"></span>
@@ -63,6 +64,12 @@ class Main implements EventListenerObject, HandleResponse{
         grilla += "</ul>";
 
         cajaDispositivos.innerHTML = grilla;
+        
+        for(let disp of listaDispositivos){
+            let cb = document.getElementById("cb_"+disp.id);
+            cb.addEventListener("click",this);
+        }
+
         this.framework.ocultarCargando();
 
     }
@@ -75,6 +82,7 @@ class Main implements EventListenerObject, HandleResponse{
         let tipoEvento: string = object.type;
         let objEvento: HTMLElement;
         objEvento = <HTMLElement>object.target;
+        
         if(objEvento.id == "btnOtro"){
             console.log(objEvento.id, objEvento.textContent);
 
@@ -86,11 +94,30 @@ class Main implements EventListenerObject, HandleResponse{
             this.framework.mostrarCargando();
 
             this.consultarDispositivosAlServidor();//llamado a la función consultarDispositivosAlServidor
+        }else if(objEvento.id.startsWith("cb_")){
+            let idDisp = objEvento.id.substring(3);
+            
+            alert("Se cambio el estado de un dispositivo "+ idDisp + " - cambiando a " + (<HTMLInputElement> objEvento).checked);
+            //this.framework.ejecutarRequest("POST", "http:", this, js);
+        }else{
+            objEvento = <HTMLElement>objEvento.parentElement;
+            if(objEvento.id == "btnAdd"){
+                alert("Se agregó");
+            }
+            
         }
     }
 }
 
 window.addEventListener("load",()=>{
+
+    //document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('select');
+        //let options = {};
+        var instances = M.FormSelect.init(elems, "");
+        M.updateTextFields();
+      //});
+
     let user:Usuario = new Usuario("Juan", "jperez", "jperez@gmail.com");
     let per1 = new Persona("Fabian");
     per1.edad = 29;
@@ -102,20 +129,10 @@ window.addEventListener("load",()=>{
     let btn2 = document.getElementById("btnOtro");
     btn2.addEventListener("click", main);
 
-    //btn.onclick = function(){
-    //    alert("Hola");
-    //};
-    
-    //btn.onclick = ()=>{//la misma funcion pero reecrita con arrow function
-    //    alert("Hola");
-    //};
+    let btnAdd = document.getElementById("btnAdd");
+    btnAdd.addEventListener("click", main);
 
-    //btn.addEventListener ("",()=> { //es mejor escribirlo con un escuchador de eventos
-    //    alert("Hola");
-   // } )
-    //btn.addEventListener ("click",()=> { 
-    //    alert("Chau");
-    //} )
+
 });
 
 
