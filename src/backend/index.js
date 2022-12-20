@@ -11,6 +11,15 @@ app.use(express.json());
 // to serve static files
 app.use(express.static('/home/node/app/static/'));
 
+//Answer 3
+var datos = require('./datos.json');
+
+//Answer 4
+app.get('/devices/', function(req,res){
+    res.json(datos);
+    //res.send(datos);
+});
+
 //=======[ Main module code ]==================================================
 
 app.get('/devices/', function(req, res, next) {

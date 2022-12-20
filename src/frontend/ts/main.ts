@@ -94,15 +94,32 @@ class Main implements EventListenerObject, HandleResponse{
             this.framework.mostrarCargando();
 
             this.consultarDispositivosAlServidor();//llamado a la función consultarDispositivosAlServidor
+
+
         }else if(objEvento.id.startsWith("cb_")){
             let idDisp = objEvento.id.substring(3);
             
             alert("Se cambio el estado de un dispositivo "+ idDisp + " - cambiando a " + (<HTMLInputElement> objEvento).checked);
             //this.framework.ejecutarRequest("POST", "http:", this, js);
+
+        
         }else{
             objEvento = <HTMLElement>objEvento.parentElement;
-            if(objEvento.id == "btnAdd"){
-                alert("Se agregó");
+
+            if (objEvento.id == "btnAdd") {
+                //alert("Se agregó");
+                //M.toast({html: 'I am a toast!', classes: 'rounded'});
+                M.toast({html: 'Se agrego!', classes: 'rounded'});
+
+                let elementTxtNombre = <HTMLInputElement>document.getElementById("txtNombre");
+                console.log(elementTxtNombre.value);
+
+                let elementoSelectColor = <HTMLSelectElement>document.getElementById("selectColores");
+                var instance = M.FormSelect.getInstance(elementoSelectColor);
+                console.log(instance.getSelectedValues());
+
+
+
             }
             
         }
@@ -112,11 +129,13 @@ class Main implements EventListenerObject, HandleResponse{
 window.addEventListener("load",()=>{
 
     //document.addEventListener('DOMContentLoaded', function() {
-        var elems = document.querySelectorAll('select');
-        //let options = {};
-        var instances = M.FormSelect.init(elems, "");
-        M.updateTextFields();
-      //});
+    var elems = document.querySelectorAll('select');
+    //let options = {};
+    var instances = M.FormSelect.init(elems, "");
+    M.updateTextFields();
+    //});
+    var elemsM = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elemsM, "");
 
     let user:Usuario = new Usuario("Juan", "jperez", "jperez@gmail.com");
     let per1 = new Persona("Fabian");
